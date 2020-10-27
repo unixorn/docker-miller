@@ -20,17 +20,16 @@ RUN cd /workdir && \
 
 FROM debian:buster-slim
 
-LABEL io.whalebrew.name mlr
-LABEL io.whalebrew.config.working_dir '/work'
-
 RUN apt-get update && \
     apt-get install -y apt-utils ca-certificates --no-install-recommends && \
     apt-get upgrade -y --no-install-recommends && \
-    apt-get install -y --no-install-recommends python3-pip && \
 		update-ca-certificates && \
 		rm -fr /tmp/* /var/lib/apt/lists/*
 
 RUN mkdir -p /usr/local/bin
 COPY --from=build /workdir/miller/c/mlr /usr/local/bin
+
+LABEL io.whalebrew.name mlr
+LABEL io.whalebrew.config.working_dir '/work'
 
 CMD ["mlr"]
